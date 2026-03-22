@@ -16,19 +16,21 @@ A2WF is an open standard that defines what AI agents can and cannot do on a webs
 
 ### 1. Validate — Check a siteai.json
 
-Validate a live website or pasted JSON against the A2WF v1.0 spec.
+Validate a `siteai.json` file against the A2WF v1.0 spec. The validator is local-only (no network requests).
 
 ```bash
-# Validate by domain (fetches /siteai.json automatically)
-node {baseDir}/scripts/validate.mjs https://example.com
-
 # Validate a local file
 node {baseDir}/scripts/validate.mjs /path/to/siteai.json
+
+# Validate from stdin
+echo '{"specVersion":"1.0",...}' | node {baseDir}/scripts/validate.mjs --stdin
 ```
+
+**To validate a live website:** Use `web_fetch` to download `https://example.com/siteai.json`, save to a temp file, then validate it.
 
 **Output:** errors (must fix), warnings (should fix), info (suggestions). Exit 0 = valid, exit 1 = invalid.
 
-If the user pastes raw JSON instead of a URL, save it to a temp file first, then validate.
+If the user pastes raw JSON instead of a file path, save it to a temp file first, then validate.
 
 ### 2. Generate — Create a siteai.json
 
